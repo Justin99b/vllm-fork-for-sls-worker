@@ -5,26 +5,37 @@ from vllm.engine.async_llm_engine import AsyncLLMEngine
 from vllm.engine.llm_engine import LLMEngine
 from vllm.entrypoints.llm import LLM
 from vllm.executor.ray_utils import initialize_ray_cluster
-from vllm.inputs import PromptStrictInputs, TextPrompt, TokensPrompt
+from vllm.inputs import PromptType, TextPrompt, TokensPrompt
 from vllm.model_executor.models import ModelRegistry
-from vllm.outputs import (CompletionOutput, EmbeddingOutput,
-                          EmbeddingRequestOutput, RequestOutput)
+from vllm.outputs import (ClassificationOutput, ClassificationRequestOutput,
+                          CompletionOutput, EmbeddingOutput,
+                          EmbeddingRequestOutput, PoolingOutput,
+                          PoolingRequestOutput, RequestOutput, ScoringOutput,
+                          ScoringRequestOutput)
 from vllm.pooling_params import PoolingParams
 from vllm.sampling_params import SamplingParams
 
-__version__ = "0.5.0"
+from .version import __version__, __version_tuple__
 
 __all__ = [
+    "__version__",
+    "__version_tuple__",
     "LLM",
     "ModelRegistry",
-    "PromptStrictInputs",
+    "PromptType",
     "TextPrompt",
     "TokensPrompt",
     "SamplingParams",
     "RequestOutput",
     "CompletionOutput",
+    "PoolingOutput",
+    "PoolingRequestOutput",
     "EmbeddingOutput",
     "EmbeddingRequestOutput",
+    "ClassificationOutput",
+    "ClassificationRequestOutput",
+    "ScoringOutput",
+    "ScoringRequestOutput",
     "LLMEngine",
     "EngineArgs",
     "AsyncLLMEngine",

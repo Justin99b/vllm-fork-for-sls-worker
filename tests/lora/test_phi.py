@@ -1,3 +1,5 @@
+from typing import List
+
 import vllm
 from vllm.lora.request import LoRARequest
 
@@ -6,7 +8,7 @@ MODEL_PATH = "microsoft/phi-2"
 PROMPT_TEMPLATE = "### Instruct: {sql_prompt}\n\n### Context: {context}\n\n### Output:"  # noqa: E501
 
 
-def do_sample(llm, lora_path: str, lora_id: int) -> str:
+def do_sample(llm: vllm.LLM, lora_path: str, lora_id: int) -> List[str]:
     prompts = [
         PROMPT_TEMPLATE.format(
             sql_prompt=
@@ -35,7 +37,7 @@ def do_sample(llm, lora_path: str, lora_id: int) -> str:
         if lora_id else None,
     )
     # Print the outputs.
-    generated_texts = []
+    generated_texts: List[str] = []
     for output in outputs:
         prompt = output.prompt
         generated_text = output.outputs[0].text.strip()
@@ -51,7 +53,8 @@ def test_phi2_lora(phi2_lora_files):
                    max_model_len=1024,
                    enable_lora=True,
                    max_loras=2,
-                   enforce_eager=True)
+                   enforce_eager=True,
+                   enable_chunked_prefill=True)
 
     expected_lora_output = [
         "SELECT catalog_publisher, COUNT(*) as num_catalogs FROM catalogs GROUP BY catalog_publisher ORDER BY num_catalogs DESC LIMIT 1;",  # noqa: E501
